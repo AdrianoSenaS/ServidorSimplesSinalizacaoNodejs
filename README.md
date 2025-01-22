@@ -68,7 +68,7 @@ const io = new Server(server, {
 ```
 
 ## Contribuições
-Contribuições são bem-vindas! Sinta-se à vontade para abrir um pull request ou reportar problemas na seção de [issues](https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO/issues).
+Contribuições são bem-vindas! Sinta-se à vontade para abrir um pull request ou reportar problemas.
 
 ## Licença
 Este projeto está licenciado sob a [MIT License](LICENSE).
