@@ -8,18 +8,18 @@ app.use(cors());
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*", // Permite conexões de qualquer origem.
+        origin: "*",
         methods: ["GET", "POST"],
     },
 });
 
-const clients = {}; // Armazena os clientes e câmeras associadas.
+const clients = {}; 
 
 // Quando um cliente se conecta
 io.on('connection', (socket) => {
     console.log(`Cliente conectado: ${socket.id}`);
 
-    // Quando um receptor solicita uma câmera
+    
     socket.on('request-camera', (data) => {
         const { cameraId } = data;
         clients[socket.id] = cameraId; // Associa o cliente à câmera.
@@ -29,25 +29,25 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('new-client', { clientId: socket.id, cameraId });
     });
 
-    // Envia oferta do transmissor para o receptor
+   
     socket.on('offer', (data) => {
         const { to, offer } = data;
         io.to(to).emit('offer', { from: socket.id, offer });
     });
 
-    // Envia resposta do receptor para o transmissor
+    
     socket.on('answer', (data) => {
         const { to, answer } = data;
         io.to(to).emit('answer', { from: socket.id, answer });
     });
 
-    // Reencaminha candidatos ICE
+   
     socket.on('ice-candidate', (data) => {
         const { to, candidate } = data;
         io.to(to).emit('ice-candidate', { from: socket.id, candidate });
     });
 
-    // Remove cliente desconectado
+
     socket.on('disconnect', () => {
         console.log(`Cliente desconectado: ${socket.id}`);
         delete clients[socket.id];
@@ -55,5 +55,5 @@ io.on('connection', (socket) => {
     });
 });
 
-// Inicia o servidor
+
 server.listen(port, () => console.log(`Servidor de sinalização rodando na porta ${port}`));
